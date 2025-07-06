@@ -1,3 +1,56 @@
+document.getElementById('mna-sf').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = e.target;
+  let scoreSF = 0;
+  for (let i = 1; i <= 6; i++) {
+    scoreSF += parseInt(form["p" + i].value, 10);
+  }
+  const nome = document.getElementById('nome').value;
+  const resultado = document.getElementById('resultado-sf');
+  resultado.innerHTML = `Paciente: <b>${nome}</b><br>Pontuação MNA-SF: <b>${scoreSF}</b>`;
+
+  if (scoreSF <= 11) {
+    document.getElementById('mna-completo').style.display = 'block';
+  } else {
+    gerarPDF(nome, scoreSF, null);
+  }
+});
+
+function finalizar() {
+  const nome = document.getElementById('nome').value;
+  const form = document.getElementById('mna-completo');
+  let scoreC = 0;
+  for (let i = 1; i <= 4; i++) {
+    scoreC += parseFloat(form["c" + i].value);
+  }
+
+  // checkboxes c5
+  const checkboxes = form.querySelectorAll('input[name="c5"]:checked');
+  scoreC += checkboxes.length > 1 ? 1 : 0;
+
+  scoreC += parseFloat(form["c6"].value);
+  scoreC += parseFloat(form["c7"].value);
+  scoreC += parseFloat(form["c8"].value);
+
+  const scoreSF = parseInt(document.getElementById('resultado-sf').innerText.match(/\d+/)[0]);
+  const total = scoreSF + scoreC;
+
+  document.getElementById('resultado-final').innerHTML = `Pontuação final (SF + Completo): <b>${total}</b>`;
+  gerarPDF(nome, scoreSF, scoreC);
+}
+
+function gerarPDF(nome, scoreSF, scoreC) {
+  const total = scoreC !== null ? scoreSF + scoreC : scoreSF;
+  const texto = `Paciente: ${nome}\nPontuação MNA-SF: ${scoreSF}\n` +
+                (scoreC !== null ? `Pontuação MNA Completo: ${scoreC}\n` : "") +
+                `Pontuação Total: ${total}`;
+
+  const blob = new Blob([texto], { type: 'application/pdf' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `MNA-${nome}.pdf`;
+  link.click();
+}
 
 document.getElementById('mna-form').addEventListener('submit', function(event) {
     event.preventDefault();
