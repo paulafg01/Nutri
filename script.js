@@ -5,7 +5,7 @@ document.getElementById('mna-form').addEventListener('submit', function(event) {
     let score = 0;
     const form = event.target;
     for (let i = 1; i <= 6; i++) {
-        score += parseInt(form['p' + i].value);
+        score += parseInt(form['p' + i].value, 10);
     }
 
     const resultado = document.getElementById('resultado');
