@@ -9,14 +9,30 @@ document.getElementById('mna-form').addEventListener('submit', function(event) {
     }
 
     const resultado = document.getElementById('resultado');
-    let mensagem = 'Pontuação total: ' + score + ' - ';
+    const nome = document.getElementById('nome').value;
+    let mensagem = `Paciente: ${nome}<br>Pontuação total: ${score} – `;
+
     if (score >= 12) {
         mensagem += 'Estado nutricional normal.';
     } else if (score >= 8) {
         mensagem += 'Risco de desnutrição.';
+        document.getElementById('mna-completo').style.display = 'block';
     } else {
         mensagem += 'Desnutrição.';
+        document.getElementById('mna-completo').style.display = 'block';
     }
 
-    resultado.textContent = mensagem;
+    resultado.innerHTML = mensagem;
 });
+
+function gerarPDF() {
+    const nome = document.getElementById('nome').value;
+    const resultado = document.getElementById('resultado').innerText;
+    const texto = `Paciente: ${nome}\n${resultado}`;
+
+    const blob = new Blob([texto], { type: 'application/pdf' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `MNA-${nome}.pdf`;
+    link.click();
+}
