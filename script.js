@@ -23,7 +23,7 @@ function finalizar() {
   let scoreSF = 0;
   for (let i = 1; i <= 6; i++) {
     scoreSF += parseInt(document.querySelector(`[name="p${i}"]`).value, 10);
-  }
+  }document.getElementById('gerar-pdf').addEventListener('click', finalizar);
 
   let scoreC = 0;
   scoreC += parseInt(document.querySelector('[name="c1"]').value, 10);
