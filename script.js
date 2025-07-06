@@ -1,48 +1,110 @@
-document.getElementById('mna-sf').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const form = e.target;
-  let scoreSF = 0;
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MNA - Mini Avaliação Nutricional</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  for (let i = 1; i <= 6; i++) {
-    scoreSF += parseInt(form['p' + i].value, 10);
-  }
+  <h1>MNA - Mini Avaliação Nutricional</h1>
+  <p><em>App desenvolvido por Paula Guedes</em></p>
 
-  const nome = document.getElementById('nome').value;
-  const resultado = document.getElementById('resultado-sf');
-  resultado.innerHTML = `<p><b>Paciente:</b> ${nome}<br><b>Pontuação MNA-SF:</b> ${scoreSF}</p>`;
+  <!-- Formulário MNA-SF -->
+  <form id="mna-sf">
+    <label>Nome do paciente: <input type="text" name="nome" id="nome"></label><br><br>
 
-  if (scoreSF <= 11) {
-    document.getElementById('mna-completo').style.display = 'block';
-  } else {
-    gerarPDF(nome, scoreSF, null);
-  }
-});
+    <div class="pergunta">
+      <label>1. Perda de apetite?</label><br>
+      <select name="p1">
+        <option value="0">Grave</option>
+        <option value="1">Moderada</option>
+        <option value="2">Sem perda</option>
+      </select>
+    </div>
 
-function finalizar() {
-  const nome = document.getElementById('nome').value;
-  let scoreSF = 0;
-  for (let i = 1; i <= 6; i++) {
-    scoreSF += parseInt(document.querySelector(`[name="p${i}"]`).value, 10);
-  }document.getElementById('gerar-pdf').addEventListener('click', finalizar);
+    <div class="pergunta">
+      <label>2. Perda de peso?</label><br>
+      <select name="p2">
+        <option value="0">≥3kg</option>
+        <option value="1">1-3kg</option>
+        <option value="2">Sem perda</option>
+        <option value="3">Não sabe</option>
+      </select>
+    </div>
 
-  let scoreC = 0;
-  scoreC += parseInt(document.querySelector('[name="c1"]').value, 10);
-  scoreC += parseInt(document.querySelector('[name="c2"]').value, 10);
+    <div class="pergunta">
+      <label>3. Mobilidade?</label><br>
+      <select name="p3">
+        <option value="0">Acamado</option>
+        <option value="1">Anda com ajuda</option>
+        <option value="2">Anda sozinho</option>
+      </select>
+    </div>
 
-  gerarPDF(nome, scoreSF, scoreC);
-}
+    <div class="pergunta">
+      <label>4. Estresse/doença aguda?</label><br>
+      <select name="p4">
+        <option value="0">Sim</option>
+        <option value="2">Não</option>
+      </select>
+    </div>
 
-function gerarPDF(nome, scoreSF, scoreC) {
-  const total = scoreC !== null ? scoreSF + scoreC : scoreSF;
-  let texto = `Paciente: ${nome}\nPontuação MNA-SF: ${scoreSF}\n`;
+    <div class="pergunta">
+      <label>5. Problemas neuropsicológicos?</label><br>
+      <select name="p5">
+        <option value="0">Graves</option>
+        <option value="1">Moderados</option>
+        <option value="2">Nenhum</option>
+      </select>
+    </div>
 
-  if (scoreC !== null) {
-    texto += `Pontuação MNA Completo: ${scoreC}\nPontuação Total: ${total}`;
-  }
+    <div class="pergunta">
+      <label>6. IMC?</label><br>
+      <select name="p6">
+        <option value="0">Menor que 19</option>
+        <option value="1">Entre 19 e 21</option>
+        <option value="2">Entre 21 e 23</option>
+        <option value="3">Maior que 23</option>
+      </select>
+    </div>
 
-  const blob = new Blob([texto], { type: 'application/pdf' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = `MNA-${nome}.pdf`;
-  link.click();
-}
+    <button type="submit">Calcular Pontuação</button>
+  </form>
+
+  <div id="resultado-sf"></div>
+
+  <!-- MNA Completo (invisível no início) -->
+  <div id="mna-completo" style="display: none;">
+    <h2>MNA Completo</h2>
+    <p>Você pode inserir aqui o formulário completo com mais perguntas, se desejar.</p>
+
+    <form id="mna-completo-form">
+      <div class="pergunta">
+        <label>7. Vive de forma independente?</label><br>
+        <select name="c1">
+          <option value="2">Sim</option>
+          <option value="1">Não</option>
+        </select>
+      </div>
+
+      <div class="pergunta">
+        <label>8. Quantas refeições faz por dia?</label><br>
+        <select name="c2">
+          <option value="2">3 ou mais</option>
+          <option value="1">2</option>
+          <option value="0">1 ou nenhuma</option>
+        </select>
+      </div>
+
+      <button type="button" onclick="finalizar()">Gerar PDF</button>
+    </form>
+  </div>
+
+  <div id="resultado-final"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+😃
