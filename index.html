@@ -1,4 +1,29 @@
+<div id="mna-completo" style="display: none;">
+  <h2>MNA Completo</h2>
+  <p>Você pode inserir aqui o formulário completo com mais perguntas, se desejar.</p>
 
+  <!-- Exemplo de perguntas adicionais -->
+  <div class="pergunta">
+    <label>7. Vive de forma independente?</label><br>
+    <select name="c1">
+      <option value="2">Sim</option>
+      <option value="1">Não</option>
+    </select>
+  </div>
+
+  <div class="pergunta">
+    <label>8. Quantas refeições faz por dia?</label><br>
+    <select name="c2">
+      <option value="2">3 ou mais</option>
+      <option value="1">2</option>
+      <option value="0">1 ou menos</option>
+    </select>
+  </div>
+
+  <!-- Adicione até a pergunta 18 (total de 12) com name="c1", "c2", ..., "c12" -->
+
+  <button onclick="finalizar()">Gerar PDF</button>
+</div>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
